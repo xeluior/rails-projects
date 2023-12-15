@@ -69,3 +69,5 @@ group :test do
 end
 
 gem "aws-sdk-s3", "~> 1.141"
+
+gem "image_processing", "~> 1.12"

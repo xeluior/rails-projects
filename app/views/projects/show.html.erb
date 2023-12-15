@@ -1,3 +1,6 @@
 <h1><%= @project.name %></h1>
+<% @project.videos.each do |v| %>
+  <%= video_tag rails_blob_path(v) %>
+<% end %>
 <%= link_to "Edit", edit_project_path(@project) %>
 <%= link_to "Delete", project_path(@project), data: {turbo_method: :delete} %>
