@@ -1,0 +1,12 @@
+<%= form_with model: project do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <% if project.errors.any? %>
+    <ul>
+      <% project.errors.full_messages.each do |e| %> 
+        <li><%= e %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <%= f.submit %>
+<% end %>
