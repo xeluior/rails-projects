@@ -1,0 +1,15 @@
+current directory: /home/rgingras/projects/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.17.0/ext/bootsnap
+/usr/bin/ruby3.1 -I /usr/lib/ruby/vendor_ruby -r ./siteconf20231215-474-rh5xcf.rb extconf.rb
+creating Makefile
+
+current directory: /home/rgingras/projects/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.17.0/ext/bootsnap
+make DESTDIR\= clean
+
+current directory: /home/rgingras/projects/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.17.0/ext/bootsnap
+make DESTDIR\=
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/rgingras/projects/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.17.0/ext/bootsnap
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20231215-474-mmu6qa/bootsnap
