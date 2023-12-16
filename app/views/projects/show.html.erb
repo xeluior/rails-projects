@@ -1,6 +1,16 @@
 <h1><%= @project.name %></h1>
-<% @project.videos.each do |v| %>
-  <%= video_tag rails_blob_path(v) %>
+<div id="project_controls">
+  <%= link_to "Edit", edit_project_path(@project) %>
+  <%= link_to "Delete", project_path(@project), data: {turbo_method: :delete} %>
+</div>
+<%- if @project.videos.attached? %>
+  <div id="videos">
+    <% @project.videos.each_with_index do |video, i| %>
+      <%= link_to project_video_url @project, video do %>
+        <%= image_tag video.representation(resize_to_limit: [160, 90]) %>
+      <% end %>
+      <%= link_to "Download", rails_blob_path(video) %>
+      <%= link_to "Delete", project_video_url(@project, video), data: {turbo_method: :delete} %>
+    <% end %>
+  </div>
 <% end %>
-<%= link_to "Edit", edit_project_path(@project) %>
-<%= link_to "Delete", project_path(@project), data: {turbo_method: :delete} %>
