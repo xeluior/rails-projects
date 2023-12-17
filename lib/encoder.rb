@@ -1,4 +1,7 @@
+# code inspired by https://github.com/streamio/streamio-ffmpeg
 class Encoder
+  attr_reader :filepath
+
   def initialize(filepath)
     @filepath = filepath
   end
@@ -8,15 +11,20 @@ class Encoder
     options = send(pass_sym)
     Dir.mkdir(workdir) unless Dir.exist? workdir
 
-    Open3.popen3(ffmpeg, *options) do |_, _, stderr|
+    Open3.popen3(ffmpeg, *options) do |_, _, stderr, thr|
       # iterate over CR delimited lines since FFMPEG overwrites output
+      output = ""
       stderr.each "\r" do |line|
+        output << line
         if line =~ /time=(\d+):(\d+):(\d+.\d+)/
           current_time = ($1.to_i * 3600) + ($2.to_i * 60) + $3.to_f
           progress = current_time / duration
         end
         yield progress if block_given?
       end
+      
+      # report errors
+      logger.debug output unless thr.value.success?
     end
   end
 
@@ -32,10 +40,6 @@ class Encoder
       JSON.parse(stdout.read)
     end
   end
-
-  private
-
-  attr_reader :filepath
 
   # helper methods
   def ffmpeg = ENV['FFMPEG'] || 'ffmpeg'
