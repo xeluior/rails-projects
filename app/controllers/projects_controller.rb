@@ -13,6 +13,10 @@ class ProjectsController < ApplicationController
 
   def update
     if @project.update project_params
+      @project.videos.each do |video|
+        EncodeUploadJob.perform_later video.blob_id
+      end
+
       redirect_to @project
     else
       render :edit, status: :unprocessable_entity
@@ -22,6 +26,11 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new project_params
     if @project.save
+      @project.videos.each do |video|
+        logger.debug "Queueing encode for #{video.blob}"
+        EncodeUploadJob.perform video.blob
+      end
+
       redirect_to @project
     else
       render :new, status: :unprocessable_entity
