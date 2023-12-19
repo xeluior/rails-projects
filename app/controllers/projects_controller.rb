@@ -27,8 +27,7 @@ class ProjectsController < ApplicationController
     @project = Project.new project_params
     if @project.save
       @project.videos.each do |video|
-        logger.debug "Queueing encode for #{video.blob}"
-        EncodeUploadJob.perform video.blob
+        EncodeUploadJob.perform_later video.blob_id
       end
 
       redirect_to @project

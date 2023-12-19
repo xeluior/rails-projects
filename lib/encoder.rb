@@ -13,7 +13,7 @@ class Encoder
 
     Open3.popen3(ffmpeg, *options) do |_, _, stderr, thr|
       # iterate over CR delimited lines since FFMPEG overwrites output
-      output = ""
+      output = ''
       stderr.each "\r" do |line|
         output << line
         if line =~ /time=(\d+):(\d+):(\d+.\d+)/
@@ -22,9 +22,6 @@ class Encoder
         end
         yield progress if block_given?
       end
-      
-      # report errors
-      logger.debug output unless thr.value.success?
     end
   end
 
